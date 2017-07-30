@@ -57,5 +57,5 @@ group :test do
   # rather use nodejs
   #gem 'therubyracer'
 
-  gem 'json'
+  gem 'json', github: 'flori/json', branch: 'v1.8'
 end

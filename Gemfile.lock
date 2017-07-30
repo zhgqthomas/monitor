@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/flori/json.git
+  revision: 7f4cfd853f2c919d854fb95548a19980feff17e8
+  branch: v1.8
+  specs:
+    json (1.8.6)
+
+GIT
   remote: git://github.com/mikz/guard-concat.git
   revision: f19853684e676001c6c11a407bc37e2747134595
   specs:
@@ -97,7 +104,7 @@ GEM
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
-    eventmachine (1.0.3)
+    eventmachine (1.0.4)
     execjs (2.2.1)
     ffi (1.9.3)
     foreman (0.75.0)
@@ -128,7 +135,6 @@ GEM
     httpclient (2.4.0)
     i18n (0.6.11)
     interception (0.5)
-    json (1.8.1)
     json_spec (1.1.2)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
@@ -248,7 +254,7 @@ DEPENDENCIES
   headless
   httpclient
   jor!
-  json
+  json!
   json_spec
   neat
   pry
@@ -265,3 +271,6 @@ DEPENDENCIES
   selenium-webdriver
   statsd-ruby
   uglifier
+
+BUNDLED WITH
+   1.15.3
