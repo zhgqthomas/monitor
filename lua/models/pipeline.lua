@@ -34,6 +34,8 @@ local Model        = require 'model'
 local lxp          = require 'lxp'
 local http_ng      = require 'http_ng'
 local async_resty  = require 'http_ng.backend.async_resty'
+--local redis = require 'redis'
+local redis = require "resty.redis"
 
 local Pipeline = Model:new()
 Pipeline.collection = 'pipelines'
@@ -262,7 +264,8 @@ local use_middleware = function(rack, middleware, trace, service_id)
     -- @table[type=Trace] trace
     trace             = trace,
     json              = json,
-    xml               = xml
+    xml               = xml,
+	redis = redis
   }
 
   -- FIXME quota has to be deactivated until we can run the middlewares as coroutines
