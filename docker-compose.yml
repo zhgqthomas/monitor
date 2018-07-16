@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/usr/local/redis/redis.conf
+    container_name: redis
+
+  monitor:
+    depends_on:
+      - redis
+    build: .
+    restart: always
+    command: bash -c 'bundle config without "" && bundle install && bundle exec foreman start'
+    volumes:
+      - .:/opt/slug
+    environment:
+      RELEASE: development
+      SLUG_ENV: development
+    ports:
+      - 7071:7071
+      - 10002:10002
+    links:
+      - redis
+    container_name: monitor
