@@ -11,3 +11,8 @@ This branch can only built by docker. Other ways please check out [branch onprem
 ```bash
 docker-compose up -d
 ```
+
+# iptables firewall port 7021
+One of the most annoying things with Docker has been how it interacts with iptables. Thanks to [this article](https://unrouted.io/2017/08/15/docker-firewall/) to solve this problem.
+
+
