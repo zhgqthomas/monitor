@@ -1,4 +1,4 @@
-# APItools Traffic Monitor [![Build Status](https://travis-ci.org/APItools/monitor.svg?branch=master)](https://travis-ci.org/APItools/monitor)
+# APItools Traffic Monitor
 
 APITools is a hosted proxy mainly for API calls, but can be used as a general programmable proxy.
 It has analytics, lua middleware, storing passed calls and many other features.
@@ -12,7 +12,7 @@ This branch can only built by docker. Other ways please check out [branch onprem
 docker-compose up -d
 ```
 
-# iptables firewall port 7021
-One of the most annoying things with Docker has been how it interacts with iptables. Thanks to [this article](https://unrouted.io/2017/08/15/docker-firewall/) to solve this problem.
+# iptables firewall
+if you don't export 7021 port in public. You can use iptables to reject the port from public. But one of the most annoying things with Docker has been how it interacts with iptables. Thanks to [this article](https://unrouted.io/2017/08/15/docker-firewall/) to solve this problem.
 
-
+[Demo iptables.conf](https://github.com/zhgqthomas/monitor/blob/docker-compose/iptables.conf)
