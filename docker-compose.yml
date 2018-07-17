@@ -8,6 +8,11 @@ services:
       - 6379:6379
     volumes:
       - ./redis/redis.conf:/usr/local/redis/redis.conf
+      - db-data:/data
+    networks:
+      backend:
+        aliases:
+          - redis
     container_name: redis
 
   monitor:
@@ -24,6 +29,14 @@ services:
     ports:
       - 7071:7071
       - 10002:10002
-    links:
-      - redis
+    networks:
+      backend:
+        aliases:
+          - monitor
     container_name: monitor
+
+volumes:
+  db-data:
+
+networks:
+  backend:
