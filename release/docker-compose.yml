@@ -6,6 +6,10 @@ services:
     restart: always
     volumes:
       - db-data:/data
+    networks:
+      backend:
+        aliases:
+          - redis
     container_name: apitools-redis
 
   apitools:
@@ -18,9 +22,14 @@ services:
     ports:
       - 7071:7071
       - 10002:10002
-    links:
-      - redis
+    networks:
+      backend:
+        aliases:
+          - apitools
     container_name: apitools
 
 volumes:
   db-data:
+
+networks:
+  backend:
