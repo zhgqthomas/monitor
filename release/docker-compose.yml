@@ -19,7 +19,7 @@ services:
       - 7071:7071
       - 10002:10002
     links:
-      - redis:db
+      - redis
     container_name: apitools
 
 volumes:
