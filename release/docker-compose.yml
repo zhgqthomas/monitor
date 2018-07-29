@@ -5,7 +5,7 @@ services:
     image: quay.io/3scale/redis
     restart: always
     volumes:
-      - ../redis/data:/data
+      - db-data:/data
     networks:
       backend:
         aliases:
@@ -15,7 +15,7 @@ services:
   apitools:
     depends_on:
       - redis
-    image: quay.io/3scale/apitools
+    build: .
     restart: always
     volumes:
       - .:/var/www/brainslug
@@ -27,6 +27,9 @@ services:
         aliases:
           - apitools
     container_name: apitools
+
+volumes:
+  db-data:
 
 networks:
   backend:
