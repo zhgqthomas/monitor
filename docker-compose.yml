@@ -2,20 +2,17 @@ version: '3.4'
 
 services:
   redis:
-    image: redis:latest
+    image: quay.io/3scale/redis
     restart: always
-    ports:
-      - 6379:6379
     volumes:
       - db-data:/data
-    command: ["redis-server", "--appendonly", "yes"]
     networks:
       backend:
         aliases:
           - redis
-    container_name: redis
+    container_name: apitools-redis
 
-  monitor:
+  apitools:
     depends_on:
       - redis
     build: .
@@ -32,8 +29,8 @@ services:
     networks:
       backend:
         aliases:
-          - monitor
-    container_name: monitor
+          - apitools
+    container_name: apitools
 
 volumes:
   db-data:
