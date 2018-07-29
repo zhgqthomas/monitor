@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.6'
 
 services:
   redis:
@@ -6,30 +6,21 @@ services:
     restart: always
     volumes:
       - db-data:/data
-    networks:
-      backend:
-        aliases:
-          - db
     container_name: apitools-redis
 
   apitools:
     depends_on:
       - redis
-    build: .
+    image: quay.io/3scale/apitools
     restart: always
     volumes:
       - .:/var/www/brainslug
     ports:
       - 7071:7071
       - 10002:10002
-    networks:
-      backend:
-        aliases:
-          - apitools
+    links:
+      - redis:db
     container_name: apitools
 
 volumes:
   db-data:
-
-networks:
-  backend:
