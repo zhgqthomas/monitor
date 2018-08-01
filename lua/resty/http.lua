@@ -721,6 +721,7 @@ function _M.request_uri(self, uri, params)
         if params.ssl_verify == false then
             verify = false
         end
+        ngx.log(ngx.INFO, ("http.lua: 724 httpc:ssl_handshake - %s:%d"):format(host, port))
         local ok, err = self:ssl_handshake(nil, host, verify)
         if not ok then
             return nil, err

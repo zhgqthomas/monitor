@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.6'
 
 services:
   redis:
@@ -7,9 +7,7 @@ services:
     volumes:
       - db-data:/data
     networks:
-      backend:
-        aliases:
-          - redis
+      - backend
     container_name: apitools-redis
 
   apitools:
@@ -17,19 +15,13 @@ services:
       - redis
     build: .
     restart: always
-    command: bash -c 'bundle config without "" && bundle install && bundle exec foreman start'
     volumes:
-      - .:/opt/slug
-    environment:
-      RELEASE: development
-      SLUG_ENV: development
+      - .:/var/www/brainslug
     ports:
       - 7071:7071
       - 10002:10002
     networks:
-      backend:
-        aliases:
-          - apitools
+      - backend
     container_name: apitools
 
 volumes:

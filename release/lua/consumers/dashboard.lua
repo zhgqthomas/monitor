@@ -1,4 +1,0 @@
---dashboard
-return {
-  name = 'dashboard'
-}

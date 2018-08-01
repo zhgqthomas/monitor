@@ -50,6 +50,7 @@ _M.async = function(req)
 
   if scheme == 'https' then
     local verify = req.options and req.options.ssl.verify or true
+    ngx.log(ngx.INFO, ("async_resty.lua: 53 httpc:ssl_handshake - %s:%d"):format(host, port))
     assert(httpc:ssl_handshake(false, host, verify))
   end
 

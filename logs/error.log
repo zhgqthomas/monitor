@@ -1,0 +1,11 @@
+2017/07/27 10:54:18 [notice] 7380#0: signal process started
+2017/07/27 10:56:31 [notice] 7619#0: signal process started
+2017/07/27 11:12:38 [notice] 7649#0: signal process started
+2017/07/27 11:26:46 [notice] 7699#0: signal process started
+2017/07/27 11:53:03 [notice] 7757#0: signal process started
+2017/07/27 12:11:03 [notice] 7911#0: signal process started
+2017/07/27 12:25:48 [notice] 7445#0: signal process started
+2017/07/27 12:26:13 [notice] 7449#0: signal process started
+2017/07/27 12:35:12 [notice] 7737#0: signal process started
+2017/07/27 12:41:23 [emerg] 7741#0: "proxy_ssl_server_name" directive is not allowed here in /opt/apitools-monitor/release/config/nginx.conf:11
+2017/07/27 13:03:36 [notice] 7790#0: signal process started

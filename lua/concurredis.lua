@@ -28,9 +28,9 @@ local expand_gmatch = function(text, match)
   local result = {}
 
   if type(text) ~= 'string' then
-	return result
+    return result
   end	  
-  
+
   local f     = ngx.re.gmatch(text, match)
   local match = f and f()
 
