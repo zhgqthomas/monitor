@@ -1,101 +1,77 @@
-# APItools Traffic Monitor [![Build Status](https://travis-ci.org/APItools/monitor.svg?branch=master)](https://travis-ci.org/APItools/monitor)
+# APItools Traffic Monitor 
 
 APITools is a hosted proxy mainly for API calls, but can be used as a general programmable proxy.
 It has analytics, lua middleware, storing passed calls and many other features.
 
-# Building and Developing
+## Docker-based Installation
 
-You need Ruby 2.1.2 to build this project and Openresty to run it.
-Then you can just run it like:
+To install the APItools Monitor using Docker, you need first to [install it](http://docs.docker.io/installation/).
 
-```bash
-bundle
-foreman start
+Check that docker is correctly installed by executing
+
+``` bash
+docker -v
+
 ```
 
-If you want to know how exacly each component is started, check Procfile.
+Once docker is installed, you can install a Docker container of an APItools Monitor with the following command:
 
-You will need a running redis server.
+To run APItools monitor you need a redis server (which you  also have in Docker).
 
-# Tests
-We have several test suites for different components. First are the API tests that require `ruby`. You can run them by `rake test:api`. You need to have an instance running on ports 7071 and 10002. Then there is `rake test:integration` which runs cucumber tests with real browsers simulating user interactions. Next are `rake test:lua` which are lua tests. They require openresty version at least `1.7.4.1`. Last are Angular tests, that require `nodejs`. You can install all dependencies by `npm install` and then just `rake test:angular`.
-
-## Docker
-
-You can use [fig](http://www.fig.sh/index.html) to start the developer environment.
-Or you can use our `make bash` to start similar environment without fig.
-
-
-## Installing Openresty
-
-
-### Installing Openresty on OSX
-
-Install [homebrew](http://brew.sh/)
-
-```bash
-brew tap apitools/openresty
-brew install openresty
-brew install apitools/openresty/luarocks
-
-luarocks install luajson
-luarocks install luaexpat
-
-bundle install
-npm install
-foreman start
-
-# For tests:
-luarocks intall busted-stable
+``` bash
+docker run -d --name redis quay.io/3scale/redis
+docker run -d -p 7071:7071 -p 10002:10002 --name apitools --link redis:db zhgqthomas/apitools
 ```
 
-### Linux
+Once the Docker is up and running, you can move to the next step - [DNS configuration](#dns-configuration).
 
-You can follow our Dockerfile with exact commands on how to install Openresty on Linux.
-You don't have to use all the flags or prefixes. The essense should be:
-
+## Docker compose
+Just download the `docker-compose.yml` file and run it.
 ```bash
-wget http://openresty.org/download/ngx_openresty-1.7.2.1.tar.gz
-tar xzf ngx_openresty-1.7.2.1.tar.gz
-cd ngx_openresty-1.7.2.1
-./configure --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT --with-http_gunzip_module
-make
-sudo make install
+docker-compose up -d
 ```
 
-For SSL of HTTP client you need ngx_openresty-1.7.4.1rc2, apply our patch like:
+## DNS Configuration
 
-```bash
-curl https://gist.githubusercontent.com/mikz/4dae10a0ef94de7c8139/raw/
-33d6d5f9baf68fc5a0748b072b4d94951e463eae/system-ssl.patch | patch -p0
-```
-and then configure and build like usual.
+APItools relies on the HTTP host to enroute the requests it receives to the correct [Service](/docs/using-services/). As a result,
+your APItools monitor expects to be run in a domain name associated to an IP address. If private you will need to host your own DNS or at least deploy dnsmasq to provide some basic wildcard DNS.
 
-# Install Guide
-You can find the full Install Guide in [our documentation](https://docs.apitools.com/docs/on-premise/).
+This means that if you are testing things out in your server, just adding entries on your `/etc/hosts` file *will not work properly*.
 
-## Debian/Ubuntu
+So for quick-and-dirty tests you can use [xip.io](http://xip.io/), which provides DNS wildcards for everyone. So you can use `apitools.127.0.0.1.xip.io`
+and that will resolve to `127.0.0.1`.
 
-Use our packages available from https://packagecloud.io/APItools/monitor.
+You can test it in the terminal using `dig`:
 
-## OSX
-
-Follow [Installing Openresty on OSX](#installing-openresty-on-osx) to get Openresty running.
-Then you can use a release or build it yourself.
-
-# Running it
-
-```bash
-nginx -p /path/to/folder -c config/nginx.conf
+``` bash
+dig  +short apitools.127.0.0.1.xip.io
+dig  +short some-service-code-apitools.127.0.0.1.xip.io
 ```
 
-## OSX
+Xip.io also provides shortcurts, so you can 'hide' the IP Address and get something like apitools.9zlhb.xip.io. Check the response of dig for the right shortcut for you.
 
-On OSX, instead of `nginx` use `openresty`.
+## Testing & Port Configuration
 
+APItools uses two ports: 7071 and 10002.
 
-# Contributing
+`7071` is where the web application lives - after the app is running, open
 
-We accept Pull Requests, but please check before doing so if it meets the target of this project.
+* [https://apitools.127.0.0.1.xip.io:7071](https://apitools.127.0.0.1.xip.io:7071)
 
-For contributing guide check [CONTRIBUTING.md](CONTRIBUTING.md).
+You should see the "Congratulations!" page, asking you whether you want to send anonymous data to 3Scale. Choose your preference and click "Save", and you'll be ready to go.
+
+If you are using xip.io to see the interface (change it to your TLD otherwise). Try adding a sample service and doing some sample requests, to make sure everything is ok.
+
+We plan to introduce third one which will auto-detect if it is an app or a proxy and you can map it to the port 80.
+
+`10002` is the proxy port. Your `curl` requests will look like this:
+
+``` bash
+curl http://some-service-code-apitools.127.0.0.1.xip.io:10002/something/or/other
+```
+
+Notice that the curl examples shown by APItools ommit the 10002 port, since the samples are meant for the on-line version.
+
+## Thanks
+- [Galen Zhao](https://github.com/galenzhao)
+- [Michal Cichra](https://github.com/mikz)

@@ -13,7 +13,7 @@ services:
   apitools:
     depends_on:
       - redis
-    build: .
+    image: zhgqthomas/apitools
     restart: always
     volumes:
       - .:/var/www/brainslug
